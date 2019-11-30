@@ -1,47 +1,47 @@
 html,body{height:100%;width:100%}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background: grey; padding: 5px;}
-#dtp{
-  background: white;
-  display: inline-block;
-  margin: 0 auto;
+#dtp {
+	background: white;
+	display: inline-block;
+	margin: 0 auto;
 }
 .clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
+	content: "";
+	clear: both;
+	display: table;
 }
-#dtp>div{
-  border: 1px solid black;
+#dtp>div {
+	border: 1px solid black;
 }
 
-#dtp .e{
-  width: 96px;
-  float: left;
-  text-align: center;
+#dtp .e {
+	width: 96px;
+	float: left;
+	text-align: center;
 }
-.val{
-  height:20px;
-  line-height: 20px;
+.val {
+	height:20px;
+	line-height: 20px;
 }
-.up .down{
-  display: block;
-  height: 20px;
-  fons-size: 12px;
-  line-height: 20px;
+.up .down {
+	display: block;
+	height: 20px;
+	font-size: 12px;
+	line-height: 20px;
 }
-.up:hover,.down:hover{
-  cursor: pointer;
+.up:hover, .down:hover {
+	cursor: pointer;
 }
 @keyframes highlight {
-    0% {
-        background: #ffff99; 
-    }
-    100% {
-        background: none;
-    }
+	0% {
+		background: #ffff99; 
+	}
+	100% {
+		background: none;
+	}
 }
 
 .highlight {
-    animation: highlight 0.4s;
+	animation: highlight 0.4s;
 }
