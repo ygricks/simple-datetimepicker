@@ -1,7 +1,7 @@
 html,body{height:100%;width:100%}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background: grey; padding: 5px;}
-#dtp {
+.yjsdate {
 	background: white;
 	display: inline-block;
 	margin: 0 auto;
@@ -11,25 +11,25 @@ body{background: grey; padding: 5px;}
 	clear: both;
 	display: table;
 }
-#dtp>div {
+.yjsdate>div {
 	border: 1px solid black;
 }
 
-#dtp .e {
+.yjsdate .e {
 	width: 96px;
 	float: left;
 	text-align: center;
 }
-.val {
+.yjsdate .val {
 	height:20px;
 	line-height: 20px;
 }
-.up .down {
+/*.up .down {
 	display: block;
 	height: 20px;
 	font-size: 12px;
 	line-height: 20px;
-}
+}*/
 .up:hover, .down:hover {
 	cursor: pointer;
 }
