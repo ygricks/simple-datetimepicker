@@ -16,6 +16,6 @@ Object.assign(SubDate.prototype, {
 	addMinutes(m){this.setTime(this.getTime()+(m*60000));return this;},
 	to_str(){
 		function d(s){return ('0'+s).slice(-2);};
-		return `${this.getFullYear()}-${d(this.getMyMount())}-${d(this.getDate())} ${d(this.getHours())}:${d(this.getMinutes())}:${d(this.getSeconds())}`;
+		return `${this.getFullYear()}-${d(this.getMyMount())}-${d(this.getDate())} ${d(this.getHours())}:${d(this.getMinutes())}`;
 	},
 });
