@@ -13,7 +13,7 @@ SubDate.prototype.addMinutes = function(m){this.setTime(this.getTime()+(m*60000)
 
 var MD = function(input){
 	const self = this;
-	var time = input.getAttribute('val');
+	var time = input.value;
 	return self.init(input, time);
 };
 MD.prototype.init = function(input, time){
