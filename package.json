@@ -4,7 +4,10 @@
   "description": "simple datetimepicker",
   "main": "src/MD.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx jest --forceExit",
+    "start": "npx static-server -o",
+    "jest": "npx jest --runInBand",
+    "jest:watch": "npm run jest -- --watchAll"
   },
   "repository": {
     "type": "git",
@@ -19,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/ygricks/simple-datetimepicker/issues"
   },
-  "homepage": "https://github.com/ygricks/simple-datetimepicker#readme"
+  "homepage": "https://github.com/ygricks/simple-datetimepicker#readme",
+  "devDependencies": {
+    "esm": "^3.2.25"
+  }
 }
