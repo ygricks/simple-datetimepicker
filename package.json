@@ -4,9 +4,10 @@
   "description": "simple datetimepicker",
   "main": "src/MD.js",
   "scripts": {
-    "test": "npx jest --forceExit",
+    "test": "npx jest --runInBand --forceExit",
+    "test:cov": "npx jest --runInBand --coverage --forceExit",
     "start": "npx static-server -o",
-    "jest": "npx jest --runInBand",
+    "jest": "npx jest",
     "jest:watch": "npm run jest -- --watchAll"
   },
   "repository": {
