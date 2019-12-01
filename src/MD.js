@@ -1,3 +1,7 @@
+/*jshint
+	module: true,
+	esversion: 9
+*/
 
 import SubDate from './SubDate.js';
 
@@ -6,6 +10,8 @@ export default function MD(input){
 	let time = input.value;
 	return self.init(input, time);
 };
+
+MD.SubDate = SubDate;
 
 Object.assign(MD.prototype, {
 
@@ -67,7 +73,7 @@ Object.assign(MD.prototype, {
 
 	view(){
 		const self = this;
-		Object.keys(self.list_attr).forEach(function(v){
+		Object.keys(self.list_attr).forEach((v) => {
 			self.list_dom[v].innerHTML = self.ts[self.list_attr[v]['get']]();
 		});
 		self.input.value = self.ts.to_str();

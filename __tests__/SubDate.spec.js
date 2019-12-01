@@ -1,6 +1,9 @@
 
-const esm = require('esm')(module);
+// To be able to run coverage, we have to require CommonJS, which is the compiled code
+// const SubDate = require('..').SubDate;
 
+// For --watch to work, we have to include the ESM version of the code
+const esm = require('esm')(module);
 const SubDate = esm('../src/SubDate.js').default;
 
 describe('SubDate', () => {

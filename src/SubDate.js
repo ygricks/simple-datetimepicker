@@ -1,3 +1,7 @@
+/*jshint
+    module: true,
+    esversion: 9
+*/
 
 export default function SubDate(...args) {
 	var dateInst = new Date(...args);
@@ -15,7 +19,7 @@ Object.assign(SubDate.prototype, {
 	addHours(h){this.setTime(this.getTime()+(h*3600000));return this;},
 	addMinutes(m){this.setTime(this.getTime()+(m*60000));return this;},
 	to_str(){
-		function d(s){return ('0'+s).slice(-2);};
+		const d = (s) => ('0'+s).slice(-2);
 		return `${this.getFullYear()}-${d(this.getMyMount())}-${d(this.getDate())} ${d(this.getHours())}:${d(this.getMinutes())}`;
 	},
 });
