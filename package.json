@@ -1,0 +1,23 @@
+{
+  "name": "simple-datetimepicker",
+  "version": "1.0.0",
+  "description": "simple datetimepicker",
+  "main": "src/MD.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ygricks/simple-datetimepicker.git"
+  },
+  "keywords": [
+    "simple",
+    "datetimepicker"
+  ],
+  "author": "Igor Cujba",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ygricks/simple-datetimepicker/issues"
+  },
+  "homepage": "https://github.com/ygricks/simple-datetimepicker#readme"
+}
