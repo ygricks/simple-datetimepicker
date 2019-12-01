@@ -1,4 +1,6 @@
-var SubDate = function () {
+(function (exports) {
+	
+const SubDate = function () {
 	var dateInst = new Date(...arguments);
 	Object.setPrototypeOf(dateInst, SubDate.prototype);
 	return dateInst;
@@ -11,7 +13,7 @@ SubDate.prototype.addDays = function(d){this.setTime(this.getTime()+(d*86400000)
 SubDate.prototype.addHours = function(h){this.setTime(this.getTime()+(h*3600000));return this;};
 SubDate.prototype.addMinutes = function(m){this.setTime(this.getTime()+(m*60000));return this;};
 
-var MD = function(input){
+const MD = function(input){
 	const self = this;
 	var time = input.value;
 	return self.init(input, time);
@@ -110,8 +112,7 @@ MD.prototype.createDOM = function(){
 	return self;
 };
 
-(function() {
-	var element = document.getElementById('dtp');
-	var ob = new MD(element);
-	ob.view();
-})();
+exports.SubDate = SubDate;
+exports.MD = MD;
+
+}(typeof module != 'undefined' && module.exports || self));
