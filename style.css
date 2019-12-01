@@ -24,12 +24,6 @@ body{background: grey; padding: 5px;}
 	height:20px;
 	line-height: 20px;
 }
-/*.up .down {
-	display: block;
-	height: 20px;
-	font-size: 12px;
-	line-height: 20px;
-}*/
 .up:hover, .down:hover {
 	cursor: pointer;
 }

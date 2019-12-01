@@ -11,15 +11,14 @@ SubDate.prototype.addDays = function(d){this.setTime(this.getTime()+(d*86400000)
 SubDate.prototype.addHours = function(h){this.setTime(this.getTime()+(h*3600000));return this;};
 SubDate.prototype.addMinutes = function(m){this.setTime(this.getTime()+(m*60000));return this;};
 
-
-var MD = function(element, time){
+var MD = function(input){
 	const self = this;
-	return self.init(element, time);
+	var time = input.getAttribute('val');
+	return self.init(input, time);
 };
-MD.prototype.init = function(element, time){
-	console.log('init')
+MD.prototype.init = function(input, time){
 	const self = this;
-	self.element = element;
+	self.input = input;
 	self.ts = new SubDate(time);
 	self.list_attr = {
 		y: {get:'getFullYear',set:'addYear'},
@@ -28,12 +27,12 @@ MD.prototype.init = function(element, time){
 		h: {get:'getHours',set:'addHours'},
 		i: {get:'getMinutes',set:'addMinutes'}
 	};
+	self.createDOM();
 	self.list_dom = {};
 	Object.keys(self.list_attr).forEach(function(v){
 		self.list_dom[v] = self.element.querySelectorAll('.e[data-id="'+v+'"] .val')[0];
 	});
 	self.eventsListner();
-	self.createDOM();
 	return self;
 };
 MD.prototype.eventsListner = function(){
@@ -74,15 +73,24 @@ MD.prototype.view = function(){
 	Object.keys(self.list_attr).forEach(function(v){
 		self.list_dom[v].innerHTML = self.ts[self.list_attr[v]['get']]();
 	})
-	return this;
+
+	var str = (function(){
+		var t = self.ts;
+		function d(s){return ('0'+s).slice(-2);};
+		return `${t.getFullYear()}-${d(t.getMyMount())}-${d(t.getDate())} ${d(t.getHours())}:${d(t.getMinutes())}:${d(t.getSeconds())}`;
+	})();
+	self.input.value = str;
+	return self;
 };
 MD.prototype.createDOM = function(){
 	var self = this;
 	var yjsdate = document.createElement("div");
-	yjsdate.className = "yjsdate";
+	yjsdate.classList.add("yjsdate");
+	yjsdate.classList.add("clearfix");
 	Object.keys(self.list_attr).forEach(function(v){
 		var e = document.createElement("div");
 		e.className = "e";
+		e.setAttribute('data-id',v);
 		var u = document.createElement("div");
 		u.className = "up";
 		u.innerHTML = "+";
@@ -96,12 +104,14 @@ MD.prototype.createDOM = function(){
 		e.appendChild(d);
 		yjsdate.appendChild(e);
 	});
-	console.log('ms',yjsdate);
-	document.body.appendChild(yjsdate);
+	self.input.parentNode.insertBefore(yjsdate, self.input.nextSibling);
+	// self.input.style.display = "none";
+	self.element = yjsdate;
+	return self;
 };
 
 (function() {
 	var element = document.getElementById('dtp');
-	var ob = new MD(element,'2017-03-28 17:13:50');
+	var ob = new MD(element);
 	ob.view();
 })();
