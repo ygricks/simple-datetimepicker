@@ -69,14 +69,8 @@ Object.assign(MD.prototype, {
 		const self = this;
 		Object.keys(self.list_attr).forEach(function(v){
 			self.list_dom[v].innerHTML = self.ts[self.list_attr[v]['get']]();
-		})
-
-		var str = (function(){
-			var t = self.ts;
-			function d(s){return ('0'+s).slice(-2);};
-			return `${t.getFullYear()}-${d(t.getMyMount())}-${d(t.getDate())} ${d(t.getHours())}:${d(t.getMinutes())}:${d(t.getSeconds())}`;
-		})();
-		self.input.value = str;
+		});
+		self.input.value = self.ts.to_str();
 		return self;
 	},
 
