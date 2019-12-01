@@ -1,5 +1,7 @@
 
-let { SubDate } = require('..');
+const esm = require('esm')(module);
+
+const SubDate = esm('../src/SubDate.js').default;
 
 describe('SubDate', () => {
     let date = '2019-12-01 00:00';
