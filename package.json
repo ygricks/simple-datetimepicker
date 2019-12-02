@@ -2,11 +2,15 @@
   "name": "simple-datetimepicker",
   "version": "1.0.0",
   "description": "simple datetimepicker",
-  "main": "src/MD.js",
+  "main": "dist/MD.js",
+  "module": "src/MD.js",
+  "unpkg": "dist/MD.min.js",
   "scripts": {
-    "test": "npx jest --forceExit",
+    "test": "npx jest --runInBand --forceExit",
+    "test:cov": "npx jest --runInBand --coverage --forceExit",
     "start": "npx static-server -o",
-    "jest": "npx jest --runInBand",
+    "build": "rollup -c rollup.config.js",
+    "jest": "npx jest",
     "jest:watch": "npm run jest -- --watchAll"
   },
   "repository": {
@@ -23,7 +27,13 @@
     "url": "https://github.com/ygricks/simple-datetimepicker/issues"
   },
   "homepage": "https://github.com/ygricks/simple-datetimepicker#readme",
+  "browserslist": "> 0.25%, not dead",
   "devDependencies": {
-    "esm": "^3.2.25"
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "esm": "^3.2.25",
+    "rollup": "^1.27.7",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-terser": "^5.1.2"
   }
 }
