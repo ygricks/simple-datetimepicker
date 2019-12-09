@@ -84,4 +84,56 @@ describe('SubDate', () => {
 		})
 	});
 
+	describe('.addDays(days)', function () {
+		it('should add days', () => {
+			let days = 15;
+			sd.setDate(days);
+
+			sd.addDays(-1)
+			expect(sd.getDate()).toBe(days-1);
+
+			sd.addDays(2);
+			expect(sd.getDate()).toBe(days+1);
+
+			sd.addDays(-7);
+			expect(sd.getDate()).toBe(days-6);
+			//
+		});
+	});
+
+	describe('.addHours(hours)', function () {
+		it('should add days', () => {
+			let hours = 20;
+			sd.setHours(hours);
+
+			sd.addHours(2)
+			expect(sd.getHours()).toBe(hours+2);
+
+			sd.addHours(-11);
+			expect(sd.getHours()).toBe(hours-9);
+
+			sd.addHours(15);
+			expect(sd.getHours()).toBe(hours-18);
+		});
+	});
+
+	describe('.addMinutes(minutes)', function () {
+		it('should add minutes', () => {
+			let minutes = 21;
+			sd.setMinutes(minutes);
+
+			sd.addMinutes(2);
+			expect(sd.getMinutes()).toBe(minutes+2);
+
+			sd.addMinutes(-1);
+			expect(sd.getMinutes()).toBe(minutes+1);
+
+			sd.addMinutes(-1);
+			expect(sd.getMinutes()).toBe(minutes);
+
+			sd.addMinutes(-61);
+			expect(sd.getMinutes()).toBe(minutes-1);
+		});
+	});
+
 });
