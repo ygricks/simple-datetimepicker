@@ -18,8 +18,36 @@ Object.assign(SubDate.prototype, {
 	addDays(d){this.setTime(this.getTime()+(d*86400000));return this;},
 	addHours(h){this.setTime(this.getTime()+(h*3600000));return this;},
 	addMinutes(m){this.setTime(this.getTime()+(m*60000));return this;},
-	to_str(){
+	to_str(pattern){
+		pattern = (pattern==undefined) ? 'yyyy-MM-dd HH:mm' : pattern;
 		const d = (s) => ('0'+s).slice(-2);
-		return `${this.getFullYear()}-${d(this.getMyMount())}-${d(this.getDate())} ${d(this.getHours())}:${d(this.getMinutes())}`;
+		var day = this.getDate(),
+			month = this.getMonth(),
+			year = this.getFullYear(),
+			hour = this.getHours(),
+			minute = this.getMinutes(),
+			second = this.getSeconds(),
+			h = hour % 12,
+			hh = d(h),
+			HH = d(hour),
+			mm = d(minute),
+			ss = d(second),
+			dd = d(day),
+			M = month + 1,
+			MM = d(M),
+			yyyy = year,
+			yy = parseInt((''+yyyy).substr(2, 2));
+		pattern = pattern
+			.replace('h',h)
+			.replace('hh',hh)
+			.replace('HH',HH)
+			.replace('mm',mm)
+			.replace('ss',ss)
+			.replace('dd',dd)
+			.replace('MM',MM)
+			.replace('M',M)
+			.replace('yyyy',yyyy)
+			.replace('yy',yy);
+		return pattern;
 	},
 });
