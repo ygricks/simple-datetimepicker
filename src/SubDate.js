@@ -19,7 +19,7 @@ Object.assign(SubDate.prototype, {
 	addHours(h){this.setTime(this.getTime()+(h*3600000));return this;},
 	addMinutes(m){this.setTime(this.getTime()+(m*60000));return this;},
 	to_str(pattern){
-		pattern = (pattern==undefined) ? 'yyyy-MM-dd HH:mm' : pattern;
+		pattern = (!pattern) ? 'yyyy-MM-dd HH:mm' : pattern;
 		const d = (s) => ('0'+s).slice(-2);
 		var day = this.getDate(),
 			month = this.getMonth(),

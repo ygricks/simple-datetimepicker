@@ -4,19 +4,21 @@
 */
 
 import SubDate from './SubDate.js';
+import extend from './Util.js';
 
-export default function MD(input){
+export default function MD(input,params){
 	const self = this;
 	let time = input.value;
-	return self.init(input, time);
+	return self.init(input, time, params);
 };
 
 MD.SubDate = SubDate;
 
 Object.assign(MD.prototype, {
 
-	init(input, time){
+	init(input, time, params){
 		const self = this;
+		self.params = extend({}, params);
 		self.input = input;
 		self.ts = new SubDate(time);
 		self.list_attr = {
@@ -26,6 +28,14 @@ Object.assign(MD.prototype, {
 			h: {get:'getHours',set:'addHours'},
 			i: {get:'getMinutes',set:'addMinutes'}
 		};
+		if(params.type && params.type == 'date'){
+			delete self.list_attr.h;
+			delete self.list_attr.i;
+		}else if(params.type && params.type == 'time'){
+			delete self.list_attr.y;
+			delete self.list_attr.m;
+			delete self.list_attr.d;
+		}
 		self.createDOM();
 		self.list_dom = {};
 		Object.keys(self.list_attr).forEach(function(v){
@@ -76,7 +86,7 @@ Object.assign(MD.prototype, {
 		Object.keys(self.list_attr).forEach((v) => {
 			self.list_dom[v].innerHTML = self.ts[self.list_attr[v]['get']]();
 		});
-		self.input.value = self.ts.to_str();
+		self.input.value = self.ts.to_str(self.params && self.params.pattern);
 		return self;
 	},
 
