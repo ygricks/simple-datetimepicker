@@ -82,28 +82,63 @@
       this.setTime(this.getTime() + m * 60000);
       return this;
     },
-    to_str: function to_str() {
+    to_str: function to_str(pattern) {
+      pattern = !pattern ? 'yyyy-MM-dd HH:mm' : pattern;
+
       var d = function d(s) {
         return ('0' + s).slice(-2);
       };
 
-      return "".concat(this.getFullYear(), "-").concat(d(this.getMyMount()), "-").concat(d(this.getDate()), " ").concat(d(this.getHours()), ":").concat(d(this.getMinutes()));
+      var day = this.getDate(),
+          month = this.getMonth(),
+          year = this.getFullYear(),
+          hour = this.getHours(),
+          minute = this.getMinutes(),
+          second = this.getSeconds(),
+          h = hour % 12,
+          hh = d(h),
+          HH = d(hour),
+          mm = d(minute),
+          ss = d(second),
+          dd = d(day),
+          M = month + 1,
+          MM = d(M),
+          yyyy = year,
+          yy = parseInt(('' + yyyy).substr(2, 2));
+      pattern = pattern.replace('h', h).replace('hh', hh).replace('HH', HH).replace('mm', mm).replace('ss', ss).replace('dd', dd).replace('MM', MM).replace('M', M).replace('yyyy', yyyy).replace('yy', yy);
+      return pattern;
     }
   });
+
+  /*jshint
+      module: true,
+      esversion: 9
+  */
+  function extend(a, b) {
+    var c = {};
+    Object.keys(a).forEach(function (k) {
+      c[k] = a[k];
+    });
+    Object.keys(b).forEach(function (k) {
+      c[k] = b[k];
+    });
+    return c;
+  }
 
   /*jshint
   	module: true,
   	esversion: 9
   */
-  function MD(input) {
+  function MD(input, params) {
     var self = this;
     var time = input.value;
-    return self.init(input, time);
+    return self.init(input, time, params);
   }
   MD.SubDate = SubDate;
   Object.assign(MD.prototype, {
-    init: function init(input, time) {
+    init: function init(input, time, params) {
       var self = this;
+      self.params = extend({}, params);
       self.input = input;
       self.ts = new SubDate(time);
       self.list_attr = {
@@ -128,6 +163,16 @@
           set: 'addMinutes'
         }
       };
+
+      if (params.type && params.type == 'date') {
+        delete self.list_attr.h;
+        delete self.list_attr.i;
+      } else if (params.type && params.type == 'time') {
+        delete self.list_attr.y;
+        delete self.list_attr.m;
+        delete self.list_attr.d;
+      }
+
       self.createDOM();
       self.list_dom = {};
       Object.keys(self.list_attr).forEach(function (v) {
@@ -186,7 +231,7 @@
       Object.keys(self.list_attr).forEach(function (v) {
         self.list_dom[v].innerHTML = self.ts[self.list_attr[v]['get']]();
       });
-      self.input.value = self.ts.to_str();
+      self.input.value = self.ts.to_str(self.params && self.params.pattern);
       return self;
     },
     createDOM: function createDOM() {
