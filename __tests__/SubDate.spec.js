@@ -7,7 +7,7 @@ const esm = require('esm')(module);
 const SubDate = esm('../src/SubDate.js').default;
 
 describe('SubDate', () => {
-	let date = '2019-12-01 00:00';
+	let date = '2019-12-01 00:00:00';
 	let sd = SubDate(date);
 	let nsd = new SubDate(date);
 

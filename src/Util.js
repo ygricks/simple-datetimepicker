@@ -3,9 +3,10 @@
     esversion: 9
 */
 
-export default function extend(a,b){
+export default function extend(...args){
 	var c = {};
-	Object.keys(a).forEach(function(k){c[k]=a[k];});
-	Object.keys(b).forEach(function(k){c[k]=b[k];});
+	for(let o of args){
+		Object.keys(o).forEach((k)=>{c[k]=o[k];});
+	}
 	return c;
 };
