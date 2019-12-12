@@ -16,10 +16,13 @@
 			var element = document.getElementById('dtp');
 			var params = {
 				// type: 'date', // ['date','time','datetime'{default}]
-				// pattern: 'yyyy-MM-dd'
+				// pattern: 'Y-m-d'
+
+				// type: 'time',
+				// pattern: 'H:i:s'
 
 				type: 'time',
-				pattern: 'HH:mm'
+				pattern: 'Y-m-d H:i:s'
 			};
 			var ob = new MD(element,params);
 			ob.view();
