@@ -99,7 +99,7 @@
           hour = this.getHours(),
           minute = this.getMinutes(),
           second = this.getSeconds(),
-          h = hour % 12,
+          h = hour % 12 || 12,
           G = hour,
           H = x(hour),
           i = x(minute),
