@@ -136,4 +136,35 @@ describe('SubDate', () => {
 		});
 	});
 
+	describe('.to_str(pattern)', function () {
+		it('should return date by pattern', () => {
+			date = '2019-12-11 14:28:15';
+			sd = SubDate(date);
+			
+			expect(sd.to_str('a/A')).toBe('pm/PM');
+			expect(sd.to_str('H-h--G-g')).toBe('14-02--14-2');
+			expect(sd.to_str('y-m-d')).toBe('19-12-11');
+			expect(sd.to_str('Y-n-j')).toBe('2019-12-11');
+
+			date = '2011-04-01 09:02:03';
+			sd = SubDate(date);
+
+			expect(sd.to_str('a/A')).toBe('am/AM');
+			expect(sd.to_str('H-h--G-g')).toBe('09-09--9-9');
+			expect(sd.to_str('y-m-d')).toBe('11-04-01');
+			expect(sd.to_str('Y-n-j')).toBe('2011-4-1');
+
+			date = '2001-03-10 17:16:18';
+			sd = SubDate(date);
+			expect(sd.to_str('j, Y, g:i a')).toBe('10, 2001, 5:16 pm');
+			expect(sd.to_str('m.d.y')).toBe('03.10.01');
+			expect(sd.to_str('j, n, Y')).toBe('10, 3, 2001');
+			expect(sd.to_str('Ymd')).toBe('20010310');
+			expect(sd.to_str('h-i-s, j-m-y')).toBe('05-16-18, 10-03-01');
+			expect(sd.to_str('j G:i:s Y')).toBe('10 17:16:18 2001');
+			expect(sd.to_str('Y-m-d H:i:s')).toBe('2001-03-10 17:16:18');
+
+		});
+	});
+
 });

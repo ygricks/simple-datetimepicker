@@ -30,8 +30,9 @@ Object.assign(SubDate.prototype, {
 			second = this.getSeconds(),
 			a = hour >= 12 ? 'pm' : 'am',
 			A = a.toUpperCase(),
-			h = (hour % 12) || 12,
+			g = (hour % 12) || 12,
 			G = hour,
+			h = x(g),
 			H = x(hour),
 			i = x(minute),
 			s = x(second),
@@ -40,10 +41,11 @@ Object.assign(SubDate.prototype, {
 			n = month,
 			m = x(month),
 			Y = year,
-			y = parseInt((''+Y).substr(2, 2));
+			y = (''+Y).substr(2, 2);
 		pattern = pattern
-			.replace('h',h)
+			.replace('g',g)
 			.replace('G',G)
+			.replace('h',h)
 			.replace('H',H)
 			.replace('i',i)
 			.replace('s',s)
@@ -51,8 +53,10 @@ Object.assign(SubDate.prototype, {
 			.replace('d',d)
 			.replace('n',n)
 			.replace('m',m)
+			.replace('y',y)
 			.replace('Y',Y)
-			.replace('y',y);
+			.replace('a',a)
+			.replace('A',A);
 		return pattern;
 	},
 });
