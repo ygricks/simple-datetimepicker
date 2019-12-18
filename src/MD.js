@@ -21,6 +21,7 @@ Object.assign(MD.prototype, {
 		self.params = extend({}, params);
 		self.input = input;
 		self.ts = new SubDate(time);
+		self.list_dom = {};
 		self.list_attr = {
 			y: {get: 'getFullYear', set: 'addYear'},
 			m: {get: 'getMyMount', set: 'addMonth'},
@@ -37,10 +38,6 @@ Object.assign(MD.prototype, {
 			delete self.list_attr.d;
 		}
 		self.createDOM();
-		self.list_dom = {};
-		Object.keys(self.list_attr).forEach(function(v) {
-			self.list_dom[v] = self.element.querySelectorAll('.e[data-id="'+v+'"] .val')[0];
-		});
 		self.eventsListner();
 		return self;
 	},
@@ -102,23 +99,24 @@ Object.assign(MD.prototype, {
 		Object.keys(self.list_attr).forEach(function(v) {
 			const e = document.createElement('div');
 			e.className = 'e';
-			e.setAttribute('data-id',v);
+			e.setAttribute('data-id', v);
 
-			const u = document.createElement('div');
-			u.className = 'up';
-			u.innerHTML = '+';
-			e.appendChild(u);
+			const up = document.createElement('div');
+			up.className = 'up';
+			up.innerHTML = '+';
+			e.appendChild(up);
 
 			const val = document.createElement('div');
 			val.className = 'val';
 			e.appendChild(val);
 
-			const d = document.createElement('div');
-			d.className = 'down';
-			d.innerHTML = '-';
-			e.appendChild(d);
+			const down = document.createElement('div');
+			down.className = 'down';
+			down.innerHTML = '-';
+			e.appendChild(down);
 
 			yjsdate.appendChild(e);
+			self.list_dom[v] = val;
 		});
 		self.input.parentNode.insertBefore(yjsdate, self.input.nextSibling);
 		// self.input.style.display = "none";
