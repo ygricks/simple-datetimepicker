@@ -45,28 +45,27 @@ Object.assign(MD.prototype, {
 	eventsListner() {
 		const self = this;
 		self.element.addEventListener('click', function(event) {
-			const t = event.target;
-			const p = function(e) {
-				return event.target.parentNode.getAttribute('data-id');
-			};
-			if (t.classList.contains('up')) {
-				self.update(p(event),1);
-			} else if (t.classList.contains('down')) {
-				self.update(p(event),-1);
-			} return;
+			const target = event.target;
+			const parent = event.target.parentNode.getAttribute('data-id');
+			if (target.classList.contains('up')) {
+				self.update(parent, 1);
+			} else if (target.classList.contains('down')) {
+				self.update(parent, -1);
+			}
+			return;
 		}, false);
 
 		function scrolled(e) {
 			const p = e.target.parentNode;
 			if (p.classList.contains('e')) {
-				e.preventDefault();
 				const d = e.wheelDelta > 0 ? 1 : -1;
+				e.preventDefault();
 				self.update(p.getAttribute('data-id'), d);
 			}
 		};
 
-		self.element.addEventListener('mousewheel', scrolled, { passive: false });
-		self.element.addEventListener('DOMMouseScroll', scrolled, { passive: false });
+		self.element.addEventListener('mousewheel', scrolled);
+		self.element.addEventListener('DOMMouseScroll', scrolled);
 		return self;
 	},
 
@@ -85,7 +84,7 @@ Object.assign(MD.prototype, {
 	view() {
 		const self = this;
 		Object.keys(self.list_attr).forEach((v) => {
-			self.list_dom[v].innerHTML = self.ts[self.list_attr[v]['get']]();
+			self.list_dom[v].innerHTML = self.ts[self.list_attr[v].get]();
 		});
 		self.input.value = self.ts.to_str(self.params && self.params.pattern);
 		return self;

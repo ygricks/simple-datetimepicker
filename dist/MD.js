@@ -199,16 +199,13 @@
     eventsListner: function eventsListner() {
       var self = this;
       self.element.addEventListener('click', function (event) {
-        var t = event.target;
+        var target = event.target;
+        var parent = event.target.parentNode.getAttribute('data-id');
 
-        var p = function p(e) {
-          return event.target.parentNode.getAttribute('data-id');
-        };
-
-        if (t.classList.contains('up')) {
-          self.update(p(), 1);
-        } else if (t.classList.contains('down')) {
-          self.update(p(), -1);
+        if (target.classList.contains('up')) {
+          self.update(parent, 1);
+        } else if (target.classList.contains('down')) {
+          self.update(parent, -1);
         }
 
         return;
@@ -218,17 +215,13 @@
         var p = e.target.parentNode;
 
         if (p.classList.contains('e')) {
-          e.preventDefault();
           var d = e.wheelDelta > 0 ? 1 : -1;
+          e.preventDefault();
           self.update(p.getAttribute('data-id'), d);
         }
       }
-      self.element.addEventListener('mousewheel', scrolled, {
-        passive: false
-      });
-      self.element.addEventListener('DOMMouseScroll', scrolled, {
-        passive: false
-      });
+      self.element.addEventListener('mousewheel', scrolled);
+      self.element.addEventListener('DOMMouseScroll', scrolled);
       return self;
     },
     highlight: function highlight(element) {
@@ -244,7 +237,7 @@
     view: function view() {
       var self = this;
       Object.keys(self.list_attr).forEach(function (v) {
-        self.list_dom[v].innerHTML = self.ts[self.list_attr[v]['get']]();
+        self.list_dom[v].innerHTML = self.ts[self.list_attr[v].get]();
       });
       self.input.value = self.ts.to_str(self.params && self.params.pattern);
       return self;
