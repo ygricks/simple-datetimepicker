@@ -46,11 +46,11 @@ Object.assign(MD.prototype, {
 		const self = this;
 		self.element.addEventListener('click', function(event) {
 			const target = event.target;
-			const parent = event.target.parentNode.getAttribute('data-id');
+			const index	 = event.target.parentNode.getAttribute('data-id');
 			if (target.classList.contains('up')) {
-				self.update(parent, 1);
+				self.update(index, 1);
 			} else if (target.classList.contains('down')) {
-				self.update(parent, -1);
+				self.update(index, -1);
 			}
 			return;
 		}, false);
@@ -64,8 +64,8 @@ Object.assign(MD.prototype, {
 			}
 		};
 
-		self.element.addEventListener('mousewheel', scrolled);
-		self.element.addEventListener('DOMMouseScroll', scrolled);
+		self.element.addEventListener('mousewheel', scrolled, {passive: false});
+		self.element.addEventListener('DOMMouseScroll', scrolled, {passive: false});
 		return self;
 	},
 

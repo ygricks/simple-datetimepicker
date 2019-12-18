@@ -200,12 +200,12 @@
       var self = this;
       self.element.addEventListener('click', function (event) {
         var target = event.target;
-        var parent = event.target.parentNode.getAttribute('data-id');
+        var index = event.target.parentNode.getAttribute('data-id');
 
         if (target.classList.contains('up')) {
-          self.update(parent, 1);
+          self.update(index, 1);
         } else if (target.classList.contains('down')) {
-          self.update(parent, -1);
+          self.update(index, -1);
         }
 
         return;
@@ -220,8 +220,12 @@
           self.update(p.getAttribute('data-id'), d);
         }
       }
-      self.element.addEventListener('mousewheel', scrolled);
-      self.element.addEventListener('DOMMouseScroll', scrolled);
+      self.element.addEventListener('mousewheel', scrolled, {
+        passive: false
+      });
+      self.element.addEventListener('DOMMouseScroll', scrolled, {
+        passive: false
+      });
       return self;
     },
     highlight: function highlight(element) {
