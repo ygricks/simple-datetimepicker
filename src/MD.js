@@ -95,24 +95,14 @@ Object.assign(MD.prototype, {
 		const yjsdate = document.createElement('div');
 		yjsdate.classList.add('yjsdate');
 		yjsdate.classList.add('clearfix');
+		const cell = self.createCell();
+
 		Object.keys(self.list_attr).forEach(function(v) {
-			const e = document.createElement('div');
-			e.className = 'e';
+
+			let e = cell.cloneNode(true);
+			let val = e.getElementsByClassName('val')[0];
+
 			e.setAttribute('data-id', v);
-
-			const up = document.createElement('div');
-			up.className = 'up';
-			up.innerHTML = '+';
-			e.appendChild(up);
-
-			const val = document.createElement('div');
-			val.className = 'val';
-			e.appendChild(val);
-
-			const down = document.createElement('div');
-			down.className = 'down';
-			down.innerHTML = '-';
-			e.appendChild(down);
 
 			yjsdate.appendChild(e);
 			self.list_dom[v] = val;
@@ -121,5 +111,25 @@ Object.assign(MD.prototype, {
 		// self.input.style.display = "none";
 		self.element = yjsdate;
 		return self;
+	},
+
+	createCell() {
+		const e = document.createElement('div');
+		e.className = 'e';
+
+		const up = document.createElement('div');
+		up.className = 'up';
+		up.innerHTML = '+';
+		e.appendChild(up);
+
+		const val = document.createElement('div');
+		val.className = 'val';
+		e.appendChild(val);
+
+		const down = document.createElement('div');
+		down.className = 'down';
+		down.innerHTML = '-';
+		e.appendChild(down);
+		return e;
 	}
 });

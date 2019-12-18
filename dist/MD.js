@@ -251,21 +251,11 @@
       var yjsdate = document.createElement('div');
       yjsdate.classList.add('yjsdate');
       yjsdate.classList.add('clearfix');
+      var cell = self.createCell();
       Object.keys(self.list_attr).forEach(function (v) {
-        var e = document.createElement('div');
-        e.className = 'e';
+        var e = cell.cloneNode(true);
+        var val = e.getElementsByClassName('val')[0];
         e.setAttribute('data-id', v);
-        var up = document.createElement('div');
-        up.className = 'up';
-        up.innerHTML = '+';
-        e.appendChild(up);
-        var val = document.createElement('div');
-        val.className = 'val';
-        e.appendChild(val);
-        var down = document.createElement('div');
-        down.className = 'down';
-        down.innerHTML = '-';
-        e.appendChild(down);
         yjsdate.appendChild(e);
         self.list_dom[v] = val;
       });
@@ -273,6 +263,22 @@
 
       self.element = yjsdate;
       return self;
+    },
+    createCell: function createCell() {
+      var e = document.createElement('div');
+      e.className = 'e';
+      var up = document.createElement('div');
+      up.className = 'up';
+      up.innerHTML = '+';
+      e.appendChild(up);
+      var val = document.createElement('div');
+      val.className = 'val';
+      e.appendChild(val);
+      var down = document.createElement('div');
+      down.className = 'down';
+      down.innerHTML = '-';
+      e.appendChild(down);
+      return e;
     }
   });
 
