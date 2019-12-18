@@ -159,6 +159,7 @@
       self.params = extend({}, params);
       self.input = input;
       self.ts = new SubDate(time);
+      self.list_dom = {};
       self.list_attr = {
         y: {
           get: 'getFullYear',
@@ -192,26 +193,19 @@
       }
 
       self.createDOM();
-      self.list_dom = {};
-      Object.keys(self.list_attr).forEach(function (v) {
-        self.list_dom[v] = self.element.querySelectorAll('.e[data-id="' + v + '"] .val')[0];
-      });
       self.eventsListner();
       return self;
     },
     eventsListner: function eventsListner() {
       var self = this;
       self.element.addEventListener('click', function (event) {
-        var t = event.target;
+        var target = event.target;
+        var index = event.target.parentNode.getAttribute('data-id');
 
-        var p = function p(e) {
-          return event.target.parentNode.getAttribute('data-id');
-        };
-
-        if (t.classList.contains('up')) {
-          self.update(p(), 1);
-        } else if (t.classList.contains('down')) {
-          self.update(p(), -1);
+        if (target.classList.contains('up')) {
+          self.update(index, 1);
+        } else if (target.classList.contains('down')) {
+          self.update(index, -1);
         }
 
         return;
@@ -221,8 +215,8 @@
         var p = e.target.parentNode;
 
         if (p.classList.contains('e')) {
-          e.preventDefault();
           var d = e.wheelDelta > 0 ? 1 : -1;
+          e.preventDefault();
           self.update(p.getAttribute('data-id'), d);
         }
       }
@@ -247,7 +241,7 @@
     view: function view() {
       var self = this;
       Object.keys(self.list_attr).forEach(function (v) {
-        self.list_dom[v].innerHTML = self.ts[self.list_attr[v]['get']]();
+        self.list_dom[v].innerHTML = self.ts[self.list_attr[v].get]();
       });
       self.input.value = self.ts.to_str(self.params && self.params.pattern);
       return self;
@@ -261,18 +255,19 @@
         var e = document.createElement('div');
         e.className = 'e';
         e.setAttribute('data-id', v);
-        var u = document.createElement('div');
-        u.className = 'up';
-        u.innerHTML = '+';
-        e.appendChild(u);
+        var up = document.createElement('div');
+        up.className = 'up';
+        up.innerHTML = '+';
+        e.appendChild(up);
         var val = document.createElement('div');
         val.className = 'val';
         e.appendChild(val);
-        var d = document.createElement('div');
-        d.className = 'down';
-        d.innerHTML = '-';
-        e.appendChild(d);
+        var down = document.createElement('div');
+        down.className = 'down';
+        down.innerHTML = '-';
+        e.appendChild(down);
         yjsdate.appendChild(e);
+        self.list_dom[v] = val;
       });
       self.input.parentNode.insertBefore(yjsdate, self.input.nextSibling); // self.input.style.display = "none";
 

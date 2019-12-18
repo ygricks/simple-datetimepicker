@@ -21,6 +21,7 @@ Object.assign(MD.prototype, {
 		self.params = extend({}, params);
 		self.input = input;
 		self.ts = new SubDate(time);
+		self.list_dom = {};
 		self.list_attr = {
 			y: {get: 'getFullYear', set: 'addYear'},
 			m: {get: 'getMyMount', set: 'addMonth'},
@@ -37,10 +38,6 @@ Object.assign(MD.prototype, {
 			delete self.list_attr.d;
 		}
 		self.createDOM();
-		self.list_dom = {};
-		Object.keys(self.list_attr).forEach(function(v) {
-			self.list_dom[v] = self.element.querySelectorAll('.e[data-id="'+v+'"] .val')[0];
-		});
 		self.eventsListner();
 		return self;
 	},
@@ -48,28 +45,27 @@ Object.assign(MD.prototype, {
 	eventsListner() {
 		const self = this;
 		self.element.addEventListener('click', function(event) {
-			const t = event.target;
-			const p = function(e) {
-				return event.target.parentNode.getAttribute('data-id');
-			};
-			if (t.classList.contains('up')) {
-				self.update(p(event),1);
-			} else if (t.classList.contains('down')) {
-				self.update(p(event),-1);
-			} return;
+			const target = event.target;
+			const index	 = event.target.parentNode.getAttribute('data-id');
+			if (target.classList.contains('up')) {
+				self.update(index, 1);
+			} else if (target.classList.contains('down')) {
+				self.update(index, -1);
+			}
+			return;
 		}, false);
 
 		function scrolled(e) {
 			const p = e.target.parentNode;
 			if (p.classList.contains('e')) {
-				e.preventDefault();
 				const d = e.wheelDelta > 0 ? 1 : -1;
+				e.preventDefault();
 				self.update(p.getAttribute('data-id'), d);
 			}
 		};
 
-		self.element.addEventListener('mousewheel', scrolled, { passive: false });
-		self.element.addEventListener('DOMMouseScroll', scrolled, { passive: false });
+		self.element.addEventListener('mousewheel', scrolled, {passive: false});
+		self.element.addEventListener('DOMMouseScroll', scrolled, {passive: false});
 		return self;
 	},
 
@@ -88,7 +84,7 @@ Object.assign(MD.prototype, {
 	view() {
 		const self = this;
 		Object.keys(self.list_attr).forEach((v) => {
-			self.list_dom[v].innerHTML = self.ts[self.list_attr[v]['get']]();
+			self.list_dom[v].innerHTML = self.ts[self.list_attr[v].get]();
 		});
 		self.input.value = self.ts.to_str(self.params && self.params.pattern);
 		return self;
@@ -102,23 +98,24 @@ Object.assign(MD.prototype, {
 		Object.keys(self.list_attr).forEach(function(v) {
 			const e = document.createElement('div');
 			e.className = 'e';
-			e.setAttribute('data-id',v);
+			e.setAttribute('data-id', v);
 
-			const u = document.createElement('div');
-			u.className = 'up';
-			u.innerHTML = '+';
-			e.appendChild(u);
+			const up = document.createElement('div');
+			up.className = 'up';
+			up.innerHTML = '+';
+			e.appendChild(up);
 
 			const val = document.createElement('div');
 			val.className = 'val';
 			e.appendChild(val);
 
-			const d = document.createElement('div');
-			d.className = 'down';
-			d.innerHTML = '-';
-			e.appendChild(d);
+			const down = document.createElement('div');
+			down.className = 'down';
+			down.innerHTML = '-';
+			e.appendChild(down);
 
 			yjsdate.appendChild(e);
+			self.list_dom[v] = val;
 		});
 		self.input.parentNode.insertBefore(yjsdate, self.input.nextSibling);
 		// self.input.style.display = "none";
