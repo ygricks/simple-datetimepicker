@@ -235,13 +235,13 @@
       return self;
     },
     highlight: function highlight(element) {
-      element.classList.remove("highlight");
+      element.classList.remove('highlight');
       void element.offsetWidth;
-      element.classList.add("highlight");
+      element.classList.add('highlight');
     },
-    update: function update(attr, indice) {
+    update: function update(attr, index) {
       var self = this;
-      self.ts[self.list_attr[attr].set](indice);
+      self.ts[self.list_attr[attr].set](index);
       return self.view();
     },
     view: function view() {
@@ -254,23 +254,23 @@
     },
     createDOM: function createDOM() {
       var self = this;
-      var yjsdate = document.createElement("div");
-      yjsdate.classList.add("yjsdate");
-      yjsdate.classList.add("clearfix");
+      var yjsdate = document.createElement('div');
+      yjsdate.classList.add('yjsdate');
+      yjsdate.classList.add('clearfix');
       Object.keys(self.list_attr).forEach(function (v) {
-        var e = document.createElement("div");
-        e.className = "e";
+        var e = document.createElement('div');
+        e.className = 'e';
         e.setAttribute('data-id', v);
-        var u = document.createElement("div");
-        u.className = "up";
-        u.innerHTML = "+";
+        var u = document.createElement('div');
+        u.className = 'up';
+        u.innerHTML = '+';
         e.appendChild(u);
-        var v = document.createElement("div");
-        v.className = "val";
-        e.appendChild(v);
-        var d = document.createElement("div");
-        d.className = "down";
-        d.innerHTML = "-";
+        var val = document.createElement('div');
+        val.className = 'val';
+        e.appendChild(val);
+        var d = document.createElement('div');
+        d.className = 'down';
+        d.innerHTML = '-';
         e.appendChild(d);
         yjsdate.appendChild(e);
       });
