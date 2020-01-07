@@ -9,6 +9,35 @@ export default function SubDate(...args) {
 	return dateInst;
 };
 
+const SD_driver_proto = {
+	get: function(target,name){
+		return (name in this) 
+			? this[name](target,this)
+			: ((name in target)
+				? target[name]
+				: name
+			)
+		;
+	},
+	_x:($)=>('0'+$).slice(-2),
+	a:($)=>$.hour >= 12 ? 'pm' : 'am',
+	A:($,_)=>_.a($).toUpperCase(),
+	g:($)=>($.hour % 12) || 12,
+	G:($)=>$.hour,
+	h:($,_)=>_._x(_.g($)),
+	H:($,_)=>_._x($.hour),
+	i:($,_)=>_._x($.minute),
+	s:($,_)=>_._x($.second),
+	j:($)=>$.day,
+	d:($,_)=>_._x($.day),
+	n:($)=>$.month,
+	m:($,_)=>_._x($.month),
+	Y:($)=>$.year,
+	y:($,_)=>(''+_.Y($)).substr(2, 2),
+};
+
+
+
 Object.setPrototypeOf(SubDate.prototype, Date.prototype);
 
 Object.assign(SubDate.prototype, {
@@ -21,42 +50,22 @@ Object.assign(SubDate.prototype, {
 	addSeconds(s){this.setTime(this.getTime()+(s*1000));return this;},
 	to_str(pattern){
 		pattern = (!pattern) ? 'Y-m-d H:i:s' : pattern;
-		const x = (s) => ('0'+s).slice(-2);
-		var day = this.getDate(),
-			month = this.getMyMount(),
-			year = this.getFullYear(),
-			hour = this.getHours(),
-			minute = this.getMinutes(),
-			second = this.getSeconds(),
-			a = hour >= 12 ? 'pm' : 'am',
-			A = a.toUpperCase(),
-			g = (hour % 12) || 12,
-			G = hour,
-			h = x(g),
-			H = x(hour),
-			i = x(minute),
-			s = x(second),
-			j = day,
-			d = x(day),
-			n = month,
-			m = x(month),
-			Y = year,
-			y = (''+Y).substr(2, 2);
-		pattern = pattern
-			.replace('g',g)
-			.replace('G',G)
-			.replace('h',h)
-			.replace('H',H)
-			.replace('i',i)
-			.replace('s',s)
-			.replace('j',j)
-			.replace('d',d)
-			.replace('n',n)
-			.replace('m',m)
-			.replace('y',y)
-			.replace('Y',Y)
-			.replace('a',a)
-			.replace('A',A);
-		return pattern;
+		const driver = Object.create(SD_driver_proto);
+		const myTime = {
+			day: this.getDate(),
+			month: this.getMonth()+1,
+			year: this.getFullYear(),
+			hour: this.getHours(),
+			minute: this.getMinutes(),
+			second: this.getSeconds(),
+		};
+		let p = new Proxy(myTime,driver);
+
+		let res = '';
+		let l = pattern.length;
+		for(let i=0;i<l;i++){
+			res+=p[pattern[i]];
+		}
+		return res;
 	},
 });
