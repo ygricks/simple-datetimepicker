@@ -18,7 +18,7 @@ Object.assign(SubDate.prototype, {
 	addDays(d){this.setTime(this.getTime()+(d*86400000));return this;},
 	addHours(h){this.setTime(this.getTime()+(h*3600000));return this;},
 	addMinutes(m){this.setTime(this.getTime()+(m*60000));return this;},
-	addSeconds(s){this.setTime(this.getTime()+(m*1000));return this;},
+	addSeconds(s){this.setTime(this.getTime()+(s*1000));return this;},
 	to_str(pattern){
 		pattern = (!pattern) ? 'Y-m-d H:i:s' : pattern;
 		const x = (s) => ('0'+s).slice(-2);

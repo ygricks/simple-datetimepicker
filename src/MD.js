@@ -15,7 +15,6 @@ export default function MD(input,params) {
 MD.SubDate = SubDate;
 
 Object.assign(MD.prototype, {
-
 	init(input, time, params) {
 		const self = this;
 		self.params = extend({}, params);
@@ -27,7 +26,8 @@ Object.assign(MD.prototype, {
 			m: {get: 'getMyMount', set: 'addMonth'},
 			d: {get: 'getDate',set: 'addDays'},
 			h: {get: 'getHours',set: 'addHours'},
-			i: {get: 'getMinutes',set: 'addMinutes'}
+			i: {get: 'getMinutes',set: 'addMinutes'},
+			s: {get: 'getSeconds',set: 'addSeconds'}
 		};
 		if (params.type && params.type == 'date') {
 			delete self.list_attr.h;
