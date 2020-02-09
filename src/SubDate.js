@@ -9,34 +9,23 @@ export default function SubDate(...args) {
 	return dateInst;
 };
 
-const SD_driver_proto = {
-	get: function(target,name){
-		return (name in this) 
-			? this[name](target,this)
-			: ((name in target)
-				? target[name]
-				: name
-			)
-		;
-	},
-	_x:($)=>('0'+$).slice(-2),
-	a:($)=>$.hour >= 12 ? 'pm' : 'am',
-	A:($,_)=>_.a($).toUpperCase(),
-	g:($)=>($.hour % 12) || 12,
-	G:($)=>$.hour,
-	h:($,_)=>_._x(_.g($)),
-	H:($,_)=>_._x($.hour),
-	i:($,_)=>_._x($.minute),
-	s:($,_)=>_._x($.second),
-	j:($)=>$.day,
-	d:($,_)=>_._x($.day),
-	n:($)=>$.month,
-	m:($,_)=>_._x($.month),
-	Y:($)=>$.year,
-	y:($,_)=>(''+_.Y($)).substr(2, 2),
+const driver = {
+	_x: ($) => ('0'+$).slice(-2),
+	get a(){return this.hour >= 12 ? 'pm' : 'am'},
+	get A(){return this.a.toUpperCase()},
+	get g(){return (this.hour % 12) || 12},
+	get G(){return this.hour},
+	get h(){return this._x(this.g)},
+	get H(){return this._x(this.hour)},
+	get i(){return this._x(this.minute)},
+	get s(){return this._x(this.second)},
+	get j(){return this.day},
+	get d(){return this._x(this.day)},
+	get n(){return this.month},
+	get m(){return this._x(this.month)},
+	get Y(){return this.year},
+	get y(){return (''+this.Y).substr(2, 2)}
 };
-
-
 
 Object.setPrototypeOf(SubDate.prototype, Date.prototype);
 
@@ -50,7 +39,6 @@ Object.assign(SubDate.prototype, {
 	addSeconds(s){this.setTime(this.getTime()+(s*1000));return this;},
 	to_str(pattern){
 		pattern = (!pattern) ? 'Y-m-d H:i:s' : pattern;
-		const driver = Object.create(SD_driver_proto);
 		const myTime = {
 			day: this.getDate(),
 			month: this.getMonth()+1,
@@ -59,12 +47,12 @@ Object.assign(SubDate.prototype, {
 			minute: this.getMinutes(),
 			second: this.getSeconds(),
 		};
-		let p = new Proxy(myTime,driver);
-
+		let p = Object.assign(driver, myTime);
 		let res = '';
 		let l = pattern.length;
 		for(let i=0;i<l;i++){
-			res+=p[pattern[i]];
+			let name = pattern[i];
+			res += name in p ? p[name] : name;
 		}
 		return res;
 	},
