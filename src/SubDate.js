@@ -2,6 +2,7 @@
     module: true,
     esversion: 9
 */
+const ESCAPE_SYMBOL = '\\';
 
 export default function SubDate(...args) {
 	var dateInst = new Date(...args);
@@ -24,7 +25,7 @@ const driver = {
 	get n(){return this.month},
 	get m(){return this._x(this.month)},
 	get Y(){return this.year},
-	get y(){return (''+this.Y).substr(2, 2)}
+	get y(){return (''+this.Y).substr(2, 2)},
 };
 
 Object.setPrototypeOf(SubDate.prototype, Date.prototype);
@@ -37,23 +38,43 @@ Object.assign(SubDate.prototype, {
 	addHours(h){this.setTime(this.getTime()+(h*3600000));return this;},
 	addMinutes(m){this.setTime(this.getTime()+(m*60000));return this;},
 	addSeconds(s){this.setTime(this.getTime()+(s*1000));return this;},
-	to_str(pattern){
-		pattern = (!pattern) ? 'Y-m-d H:i:s' : pattern;
-		const myTime = {
+	to_str(pattern) {
+		pattern = !pattern ? 'Y-m-d H:i:s' : pattern;
+		const timeParams = {
 			day: this.getDate(),
-			month: this.getMonth()+1,
+			month: this.getMonth() + 1,
 			year: this.getFullYear(),
 			hour: this.getHours(),
 			minute: this.getMinutes(),
 			second: this.getSeconds(),
 		};
-		let p = Object.assign(driver, myTime);
-		let res = '';
-		let l = pattern.length;
-		for(let i=0;i<l;i++){
-			let name = pattern[i];
-			res += name in p ? p[name] : name;
+		const pDriver = Object.assign(driver, timeParams);
+		const len = pattern.length;
+
+		let ret = '';
+		let escaped = false;
+		for (let i = 0; i < len; i++) {
+			const symbol = pattern[i];
+			if (symbol == ESCAPE_SYMBOL) {
+				if (escaped) {
+					ret += ESCAPE_SYMBOL;
+					escaped = false;
+				} else {
+					escaped = true;
+				}
+			} else {
+				if (symbol in pDriver) {
+					ret += escaped ? symbol : pDriver[symbol];
+				} else {
+					ret += (escaped ? ESCAPE_SYMBOL : '') + symbol
+				}
+				escaped = false;
+			}
 		}
-		return res;
+		if (escaped) {
+			ret += ESCAPE_SYMBOL;
+		}
+
+		return ret;
 	},
 });
