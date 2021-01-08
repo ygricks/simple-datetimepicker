@@ -32,6 +32,7 @@ Object.assign(MD.prototype, {
 		if (params.type && params.type == 'date') {
 			delete self.list_attr.h;
 			delete self.list_attr.i;
+			delete self.list_attr.s;
 		} else if (params.type && params.type == 'time') {
 			delete self.list_attr.y;
 			delete self.list_attr.m;
