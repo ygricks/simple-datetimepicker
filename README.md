@@ -4,7 +4,7 @@
 
 ---
 
-cover input datetime with UI html for simple change date and time with click "+" / "-" or mouse wheel.
+cover input datetime with UI html for simple change date and time with click "+" / "-" or roll the mouse wheel.
 
 __init:__
 ```js
