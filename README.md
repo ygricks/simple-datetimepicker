@@ -45,4 +45,9 @@ import MD from "./src/MD.js";
 | *i* | Minutes with leading zeros | 00 -> 59 |
 | *s* | Seconds with leading zeros | 00 -> 59 |
 
+To escape a symbol (from above list) in pattern, just add `\` before this symbol. Symbol `\` can be escaped with `\` symbol.
 
+For desired result: `Current time: \17h:13m:50s\`
+```js
+const pattern = 'Curre\\nt t\\i\\me: \\\\H\\h:i\\m:s\\s\\\\';
+```
