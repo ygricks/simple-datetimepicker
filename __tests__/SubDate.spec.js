@@ -159,6 +159,17 @@ describe('SubDate', () => {
 			expect(sd.to_str('Y-m-d H:i:s')).toBe('2001-03-10 17:16:18');
 
 		});
+
+		it('should escape some characters', () => {
+			const date = '2021-07-11 13:01:44';
+			const sd = SubDate(date);
+
+			expect(sd.to_str('H\\h:i\\m:s\\s')).toBe('13h:01m:44s');
+			expect(sd.to_str('\\A: ga, \\i: i [s]')).toBe('A: 1pm, i: 01 [44]');
+			expect(sd.to_str('\\Y: Y, \\m: m, \\d: d')).toBe('Y: 2021, m: 07, d: 11');
+			expect(sd.to_str('Curre\\nt t\\i\\me: \\\\ha:i\\m:s\\s\\\\')).toBe('Current time: \\01pm:01m:44s\\');
+			expect(sd.to_str('To\\d\\a\\y \\i\\s: [m-d-y]')).toBe('Today is: [07-11-21]');
+		});
 	});
 
 });
