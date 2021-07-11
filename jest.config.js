@@ -12,4 +12,7 @@ module.exports = {
         "**/__tests__/**/*.?(m)js",
         "**/?(*.)(spec|test).?(m)js",
     ],
+    "transform": {
+        "^.+\\.js$": "babel-jest"
+    },
 };

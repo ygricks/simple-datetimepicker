@@ -1,10 +1,4 @@
-
-// To be able to run coverage, we have to require CommonJS, which is the compiled code
-// const SubDate = require('..').SubDate;
-
-// For --watch to work, we have to include the ESM version of the code
-const esm = require('esm')(module);
-const SubDate = esm('../src/SubDate.js').default;
+import SubDate from '../src/SubDate';
 
 describe('SubDate', () => {
 	let date = '2019-12-01 00:00:00';
@@ -15,19 +9,19 @@ describe('SubDate', () => {
 		expect(SubDate).toBeTruthy();
 		expect(sd).toEqual(nsd);
 	});
-	
+
 	it('should be instance of SubDate', () => {
 		expect(sd instanceof SubDate).toBeTruthy();
 		expect(sd.constructor).toBe(SubDate);
-	
+
 		expect(nsd instanceof SubDate).toBeTruthy();
 		expect(nsd.constructor).toBe(SubDate);
 	});
-	
+
 	it('should be instance of Date', () => {
 		expect(sd instanceof Date).toBeTruthy();
 		expect(sd.constructor).toBe(SubDate);
-	
+
 		expect(sd instanceof Date).toBeTruthy();
 		expect(sd.constructor).toBe(SubDate);
 	});
@@ -39,7 +33,7 @@ describe('SubDate', () => {
 	describe('.addYear(year)', function () {
 		it('should add years', () => {
 			let year = sd.getYear();
-			
+
 			sd.addYear(1);
 			expect(sd.getYear()).toBe(year + 1);
 
@@ -136,11 +130,27 @@ describe('SubDate', () => {
 		});
 	});
 
+	describe('.addSeconds(seconds)', function () {
+		it('should add seconds', () => {
+			sd.addSeconds(1);
+			expect(sd.getSeconds()).toBe(1);
+
+			sd.addSeconds(-2);
+			expect(sd.getSeconds()).toBe(59);
+
+			sd.addSeconds(11);
+			expect(sd.getSeconds()).toBe(10);
+
+			sd.addSeconds(-6);
+			expect(sd.getSeconds()).toBe(4);
+		});
+	});
+
 	describe('.to_str(pattern)', function () {
 		it('should return date by pattern', () => {
 			date = '2019-12-11 14:28:15';
 			sd = SubDate(date);
-			
+
 			expect(sd.to_str('a/A')).toBe('pm/PM');
 			expect(sd.to_str('H-h--G-g')).toBe('14-02--14-2');
 			expect(sd.to_str('y-m-d')).toBe('19-12-11');
@@ -164,6 +174,18 @@ describe('SubDate', () => {
 			expect(sd.to_str('j G:i:s Y')).toBe('10 17:16:18 2001');
 			expect(sd.to_str('Y-m-d H:i:s')).toBe('2001-03-10 17:16:18');
 
+		});
+
+		it('should escape some characters', () => {
+			const date = '2021-07-11 13:01:44';
+			const sd = SubDate(date);
+
+			expect(sd.to_str('H\\h:i\\m:s\\s')).toBe('13h:01m:44s');
+			expect(sd.to_str('\\A: ga, \\i: i [s]')).toBe('A: 1pm, i: 01 [44]');
+			expect(sd.to_str('\\Y: Y, \\m: m, \\d: d')).toBe('Y: 2021, m: 07, d: 11');
+			expect(sd.to_str('Curre\\nt t\\i\\me: \\\\ha:i\\m:s\\s\\\\')).toBe('Current time: \\01pm:01m:44s\\');
+			expect(sd.to_str('To\\d\\a\\y \\i\\s: [m-d-y]')).toBe('Today is: [07-11-21]');
+			expect(sd.to_str('\\Дата d (час g-ый)\\')).toBe('\\Дата 11 (час 1-ый)\\');
 		});
 	});
 
