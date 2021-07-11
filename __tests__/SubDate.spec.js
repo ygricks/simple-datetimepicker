@@ -185,6 +185,7 @@ describe('SubDate', () => {
 			expect(sd.to_str('\\Y: Y, \\m: m, \\d: d')).toBe('Y: 2021, m: 07, d: 11');
 			expect(sd.to_str('Curre\\nt t\\i\\me: \\\\ha:i\\m:s\\s\\\\')).toBe('Current time: \\01pm:01m:44s\\');
 			expect(sd.to_str('To\\d\\a\\y \\i\\s: [m-d-y]')).toBe('Today is: [07-11-21]');
+			expect(sd.to_str('\\Дата d (час g-ый)\\')).toBe('\\Дата 11 (час 1-ый)\\');
 		});
 	});
 
