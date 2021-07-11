@@ -130,6 +130,22 @@ describe('SubDate', () => {
 		});
 	});
 
+	describe('.addSeconds(seconds)', function () {
+		it('should add seconds', () => {
+			sd.addSeconds(1);
+			expect(sd.getSeconds()).toBe(1);
+
+			sd.addSeconds(-2);
+			expect(sd.getSeconds()).toBe(59);
+
+			sd.addSeconds(11);
+			expect(sd.getSeconds()).toBe(10);
+
+			sd.addSeconds(-6);
+			expect(sd.getSeconds()).toBe(4);
+		});
+	});
+
 	describe('.to_str(pattern)', function () {
 		it('should return date by pattern', () => {
 			date = '2019-12-11 14:28:15';
