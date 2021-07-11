@@ -1,10 +1,4 @@
-
-// To be able to run coverage, we have to require CommonJS, which is the compiled code
-// const SubDate = require('..').SubDate;
-
-// For --watch to work, we have to include the ESM version of the code
-const esm = require('esm')(module);
-const SubDate = esm('../src/SubDate.js').default;
+import SubDate from '../src/SubDate';
 
 describe('SubDate', () => {
 	let date = '2019-12-01 00:00:00';
@@ -15,19 +9,19 @@ describe('SubDate', () => {
 		expect(SubDate).toBeTruthy();
 		expect(sd).toEqual(nsd);
 	});
-	
+
 	it('should be instance of SubDate', () => {
 		expect(sd instanceof SubDate).toBeTruthy();
 		expect(sd.constructor).toBe(SubDate);
-	
+
 		expect(nsd instanceof SubDate).toBeTruthy();
 		expect(nsd.constructor).toBe(SubDate);
 	});
-	
+
 	it('should be instance of Date', () => {
 		expect(sd instanceof Date).toBeTruthy();
 		expect(sd.constructor).toBe(SubDate);
-	
+
 		expect(sd instanceof Date).toBeTruthy();
 		expect(sd.constructor).toBe(SubDate);
 	});
@@ -39,7 +33,7 @@ describe('SubDate', () => {
 	describe('.addYear(year)', function () {
 		it('should add years', () => {
 			let year = sd.getYear();
-			
+
 			sd.addYear(1);
 			expect(sd.getYear()).toBe(year + 1);
 
@@ -140,7 +134,7 @@ describe('SubDate', () => {
 		it('should return date by pattern', () => {
 			date = '2019-12-11 14:28:15';
 			sd = SubDate(date);
-			
+
 			expect(sd.to_str('a/A')).toBe('pm/PM');
 			expect(sd.to_str('H-h--G-g')).toBe('14-02--14-2');
 			expect(sd.to_str('y-m-d')).toBe('19-12-11');
